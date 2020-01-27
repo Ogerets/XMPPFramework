@@ -323,11 +323,18 @@ enum XMPPRoomState
 		//     </x>
 		//   </query>
 		// </iq>
-		
-		NSXMLElement *query = [iq elementForName:@"query" xmlns:XMPPMUCOwnerNamespace];
-		NSXMLElement *x = [query elementForName:@"x" xmlns:@"jabber:x:data"];
-		
-		[multicastDelegate xmppRoom:self didFetchConfigurationForm:x];
+
+		if ([[iq type] isEqualToString:@"result"])
+		{
+			NSXMLElement *query = [iq elementForName:@"query" xmlns:XMPPMUCOwnerNamespace];
+			NSXMLElement *x = [query elementForName:@"x" xmlns:@"jabber:x:data"];
+
+			[multicastDelegate xmppRoom:self didFetchConfigurationForm:x];
+		}
+		else
+		{
+			[multicastDelegate xmppRoom:self didNotFetchConfigurationForm:iq];
+		}
 	}
 }
 
