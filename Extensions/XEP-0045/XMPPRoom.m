@@ -970,8 +970,7 @@ enum XMPPRoomState
         }
         
         XMPPMessage *message = [XMPPMessage message];
-        [message addAttributeWithName:@"to" stringValue:[self->roomJID full]];
-        [message addAttributeWithName:@"type" stringValue:@"invite"];
+		[message addAttributeWithName:@"to" stringValue:[self->roomJID full]];
         [message addChild:x];
         
 		[self->xmppStream sendElement:message];

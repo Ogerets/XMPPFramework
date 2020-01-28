@@ -15,7 +15,6 @@ public extension XMPPMessage {
         case groupchat
         case headline
         case normal
-        case invite
     }
     
     public var messageType: MessageType? {
