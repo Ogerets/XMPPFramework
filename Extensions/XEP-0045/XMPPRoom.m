@@ -393,7 +393,7 @@ enum XMPPRoomState
 		NSString *fetchID = [self->xmppStream generateUUID];
 
 		NSXMLElement *query = [NSXMLElement elementWithName:@"query"
-													  xmlns:@"http://jabber.org/protocol/disco#items"];
+													  xmlns:@"http://jabber.org/protocol/disco#info"];
 		XMPPIQ *iq = [XMPPIQ iqWithType:@"get"
 									 to:self->roomJID
 							  elementID:fetchID
