@@ -384,7 +384,7 @@ enum XMPPRoomState
 *   <query xmlns='http://jabber.org/protocol/disco#items'/>
 * </iq>
 */
-- (BOOL)fetchRoomInfoWith:(XMPPJID *)roomJID
+- (void)fetchRoomInfoWith:(XMPPJID *)roomJID
 {
 	dispatch_block_t block = ^{ @autoreleasepool {
 
@@ -393,7 +393,7 @@ enum XMPPRoomState
 		NSString *fetchID = [self->xmppStream generateUUID];
 
 		NSXMLElement *query = [NSXMLElement elementWithName:@"query"
-													  xmlns:XMPPDiscoverItemsNamespace];
+													  xmlns:@"http://jabber.org/protocol/disco#items"];
 		XMPPIQ *iq = [XMPPIQ iqWithType:@"get"
 									 to:self->roomJID
 							  elementID:fetchID
@@ -411,11 +411,9 @@ enum XMPPRoomState
 	  block();
 	else
 	  dispatch_async(moduleQueue, block);
-
-	return YES;
 }
 
-- (void)handleFetchRoomInfoResponse:(XMPPIQ *)iq withInfo:(XMPPTrackingInfo *)info
+- (void)handleFetchRoomInfoResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info
 {
 	XMPPLogTrace();
 
