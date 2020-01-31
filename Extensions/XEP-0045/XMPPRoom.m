@@ -384,7 +384,7 @@ enum XMPPRoomState
 *   <query xmlns='http://jabber.org/protocol/disco#items'/>
 * </iq>
 */
-- (void)fetchRoomInfoWith:(XMPPJID *)roomJID
+- (void)fetchRoomInfo
 {
 	dispatch_block_t block = ^{ @autoreleasepool {
 
