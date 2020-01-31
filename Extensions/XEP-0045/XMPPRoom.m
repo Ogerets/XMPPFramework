@@ -370,6 +370,65 @@ enum XMPPRoomState
 		dispatch_async(moduleQueue, block);
 }
 
+/**
+* This method provides functionality of XEP-0045 6.4 Discovering Rooms
+*
+* @link {http://xmpp.org/extensions/xep-0045.html#disco-rooms}
+*
+* Example 8. Entity Queries Chat Service for Rooms
+*
+* <iq from='hag66@shakespeare.lit/pda'
+*       id='zb8q41f4'
+*       to='coven@chat.shakespeare.lit'
+*     type='get'>
+*   <query xmlns='http://jabber.org/protocol/disco#items'/>
+* </iq>
+*/
+- (BOOL)fetchRoomInfoWith:(XMPPJID *)roomJID
+{
+	dispatch_block_t block = ^{ @autoreleasepool {
+
+		XMPPLogTrace();
+
+		NSString *fetchID = [self->xmppStream generateUUID];
+
+		NSXMLElement *query = [NSXMLElement elementWithName:@"query"
+													  xmlns:XMPPDiscoverItemsNamespace];
+		XMPPIQ *iq = [XMPPIQ iqWithType:@"get"
+									 to:self->roomJID
+							  elementID:fetchID
+								  child:query];
+
+		[self->xmppStream sendElement:iq];
+
+		[self->responseTracker addID:fetchID
+							  target:self
+							selector:@selector(handleFetchRoomInfoResponse:withInfo:)
+							 timeout:60.0];
+	}};
+
+	if (dispatch_get_specific(moduleQueueTag))
+	  block();
+	else
+	  dispatch_async(moduleQueue, block);
+
+	return YES;
+}
+
+- (void)handleFetchRoomInfoResponse:(XMPPIQ *)iq withInfo:(XMPPTrackingInfo *)info
+{
+	XMPPLogTrace();
+
+	if ([[iq type] isEqualToString:@"result"])
+	{
+		[multicastDelegate xmppRoom:self didFetchRoomInfo:iq];
+	}
+	else
+	{
+		[multicastDelegate xmppRoom:self didNotFetchRoomInfo:iq];
+	}
+}
+
 - (void)handleConfigureRoomResponse:(XMPPIQ *)iq withInfo:(id <XMPPTrackingInfo>)info
 {
 	XMPPLogTrace();
