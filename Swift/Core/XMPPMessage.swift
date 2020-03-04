@@ -15,8 +15,8 @@ public extension XMPPMessage {
         case groupchat
         case headline
         case normal
-        case .voiceSdp
-        case .voiceIce
+        case voiceSdp
+        case voiceIce
     }
     
     public var messageType: MessageType? {
