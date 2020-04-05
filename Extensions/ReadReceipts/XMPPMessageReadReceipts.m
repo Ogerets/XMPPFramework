@@ -70,7 +70,7 @@
     __block BOOL result = NO;
     
     dispatch_block_t block = ^{
-        result = self.autoSendMessageReadRequests;
+        result = autoSendMessageReadRequests;
     };
     
     if (dispatch_get_specific(moduleQueueTag))
@@ -84,7 +84,7 @@
 - (void)setAutoSendMessageReadRequests:(BOOL)flag
 {
     dispatch_block_t block = ^{
-        self.autoSendMessageReadRequests = flag;
+        autoSendMessageReadRequests = flag;
     };
     
     if (dispatch_get_specific(moduleQueueTag))
@@ -106,7 +106,7 @@
 }
 - (XMPPMessage *)xmppStream:(XMPPStream *)sender willSendMessage:(XMPPMessage *)message
 {
-    if(self.autoSendMessageReadRequests
+    if(autoSendMessageReadRequests
        && [message to]
        && ![message isErrorMessage] && ![[[message attributeForName:@"type"] stringValue] isEqualToString:@"groupchat"]
        && [[message elementID] length]
