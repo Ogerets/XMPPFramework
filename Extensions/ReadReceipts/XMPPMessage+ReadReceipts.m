@@ -41,7 +41,7 @@
     //   <read xmlns="urn:xmpp:read_receipts" id="ABC-123"/>
     // </message>
     
-    NSXMLElement *received = [NSXMLElement elementWithName:@"read" xmlns:@"urn:xmpp:read_receipts"];
+    NSXMLElement *read = [NSXMLElement elementWithName:@"read" xmlns:@"urn:xmpp:read_receipts"];
     
     NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
     
@@ -66,10 +66,10 @@
     NSString *msgid = [self elementID];
     if (msgid)
     {
-        [received addAttributeWithName:@"id" stringValue:msgid];
+        [read addAttributeWithName:@"id" stringValue:msgid];
     }
     
-    [message addChild:received];
+    [message addChild:read];
     
     return [[self class] messageFromElement:message];
 }
