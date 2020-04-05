@@ -170,6 +170,8 @@
 #import "XMPPRoomLightCoreDataStorageProtected.h"
 #import "XMPPRoomLightMessageCoreDataStorageObject.h"
 #import "XMPPOneToOneChat.h"
+#import "XMPPMessage+ReadReceipts.h"
+#import "XMPPMessageReadReceipts.h"
 
 
 FOUNDATION_EXPORT double XMPPFrameworkVersionNumber;
