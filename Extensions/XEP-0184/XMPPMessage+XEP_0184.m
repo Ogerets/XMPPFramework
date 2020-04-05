@@ -5,28 +5,28 @@
 
 @implementation XMPPMessage (XEP_0184)
 
-- (BOOL)hasReceiptRequest
+- (BOOL)hasDeliveryReceiptRequest
 {
 	NSXMLElement *receiptRequest = [self elementForName:@"request" xmlns:@"urn:xmpp:receipts"];
 	
 	return (receiptRequest != nil);
 }
 
-- (BOOL)hasReceiptResponse
+- (BOOL)hasDeliveryReceiptResponse
 {
 	NSXMLElement *receiptResponse = [self elementForName:@"received" xmlns:@"urn:xmpp:receipts"];
 	
 	return (receiptResponse != nil);
 }
 
-- (NSString *)receiptResponseID
+- (NSString *)deliveryReceiptResponseID
 {
 	NSXMLElement *receiptResponse = [self elementForName:@"received" xmlns:@"urn:xmpp:receipts"];
 	
 	return [receiptResponse attributeStringValueForName:@"id"];
 }
 
-- (XMPPMessage *)generateReceiptResponse
+- (XMPPMessage *)generateDeliveryReceiptResponse
 {
 	// Example:
 	// 
@@ -68,7 +68,7 @@
 }
 
 
-- (void)addReceiptRequest
+- (void)addDeliveryReceiptRequest
 {
     NSXMLElement *receiptRequest = [NSXMLElement elementWithName:@"request" xmlns:@"urn:xmpp:receipts"];
     [self addChild:receiptRequest];

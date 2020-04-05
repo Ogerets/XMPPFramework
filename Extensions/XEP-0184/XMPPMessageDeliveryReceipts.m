@@ -64,7 +64,7 @@
 	__block BOOL result = NO;
 	
 	dispatch_block_t block = ^{
-		result = autoSendMessageDeliveryRequests;
+		result = self.autoSendMessageDeliveryRequests;
 	};
 	
 	if (dispatch_get_specific(moduleQueueTag))
@@ -78,7 +78,7 @@
 - (void)setAutoSendMessageDeliveryRequests:(BOOL)flag
 {
 	dispatch_block_t block = ^{
-		autoSendMessageDeliveryRequests = flag;
+		self.autoSendMessageDeliveryRequests = flag;
 	};
 	
 	if (dispatch_get_specific(moduleQueueTag))
@@ -92,7 +92,7 @@
 	__block BOOL result = NO;
 	
 	dispatch_block_t block = ^{
-		result = autoSendMessageDeliveryReceipts;
+		result = self.autoSendMessageDeliveryReceipts;
 	};
 	
 	if (dispatch_get_specific(moduleQueueTag))
@@ -106,7 +106,7 @@
 - (void)setAutoSendMessageDeliveryReceipts:(BOOL)flag
 {
 	dispatch_block_t block = ^{
-		autoSendMessageDeliveryReceipts = flag;
+		self.autoSendMessageDeliveryReceipts = flag;
 	};
 	
 	if (dispatch_get_specific(moduleQueueTag))
@@ -121,16 +121,16 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-    if([message hasReceiptRequest])
+    if([message hasDeliveryReceiptRequest])
     {        
         if(self.autoSendMessageDeliveryReceipts)
         {
-            XMPPMessage *generatedReceiptResponse = [message generateReceiptResponse];
+            XMPPMessage *generatedReceiptResponse = [message generateDeliveryReceiptResponse];
             [sender sendElement:generatedReceiptResponse];
         }
     }
     
-    if ([message hasReceiptResponse])
+    if ([message hasDeliveryReceiptResponse])
     {
         [multicastDelegate xmppMessageDeliveryReceipts:self didReceiveReceiptResponseMessage:message];
     }
@@ -142,7 +142,7 @@
        && [message to]
        && ![message isErrorMessage] && ![[[message attributeForName:@"type"] stringValue] isEqualToString:@"groupchat"]
        && [[message elementID] length]
-       && ![message hasReceiptRequest] && ![message hasReceiptResponse])
+       && ![message hasDeliveryReceiptRequest] && ![message hasDeliveryReceiptResponse])
     {
         
 #ifdef _XMPP_CAPABILITIES_H
@@ -180,7 +180,7 @@
         
         if(addReceiptRequest)
         {
-            [message addReceiptRequest];
+            [message addDeliveryReceiptRequest];
         }
     }
     
