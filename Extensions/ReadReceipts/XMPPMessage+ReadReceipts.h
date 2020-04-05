@@ -20,6 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, nullable) NSString *readReceiptResponseID;
 @property (nonatomic, readonly, nullable) XMPPMessage *generateReadReceiptResponse;
 
+// Global read receipt for all messages
++ (XMPPMessage *)generateReadReceiptForJid:(NSString *)jid;
+
 - (void)addReadReceiptRequest;
 
 @end

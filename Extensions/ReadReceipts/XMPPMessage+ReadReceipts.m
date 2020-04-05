@@ -74,6 +74,29 @@
     return [[self class] messageFromElement:message];
 }
 
++ (XMPPMessage *)generateReadReceiptForJid:(XMPPJID *)jid
+{
+    // Example:
+    //
+    // <message to="juliet">
+    //   <read xmlns="urn:xmpp:read_receipts"/>
+    // </message>
+    
+    NSXMLElement *read = [NSXMLElement elementWithName:@"read" xmlns:@"urn:xmpp:read_receipts"];
+    
+    NSXMLElement *message = [NSXMLElement elementWithName:@"message"];
+        
+    NSString *to = [jid bare];
+    
+    if (to)
+    {
+        [message addAttributeWithName:@"to" stringValue:to];
+    }
+    
+    [message addChild:read];
+    
+    return [[self class] messageFromElement:message];
+}
 
 - (void)addReadReceiptRequest
 {
