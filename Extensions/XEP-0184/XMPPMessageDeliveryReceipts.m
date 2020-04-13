@@ -121,16 +121,16 @@
 
 - (void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message
 {
-    if([message hasReceiptRequest])
+    if([message hasDeliveryReceiptRequest])
     {        
         if(self.autoSendMessageDeliveryReceipts)
         {
-            XMPPMessage *generatedReceiptResponse = [message generateReceiptResponse];
+            XMPPMessage *generatedReceiptResponse = [message generateDeliveryReceiptResponse];
             [sender sendElement:generatedReceiptResponse];
         }
     }
     
-    if ([message hasReceiptResponse])
+    if ([message hasDeliveryReceiptResponse])
     {
         [multicastDelegate xmppMessageDeliveryReceipts:self didReceiveReceiptResponseMessage:message];
     }
@@ -142,7 +142,7 @@
        && [message to]
        && ![message isErrorMessage] && ![[[message attributeForName:@"type"] stringValue] isEqualToString:@"groupchat"]
        && [[message elementID] length]
-       && ![message hasReceiptRequest] && ![message hasReceiptResponse])
+       && ![message hasDeliveryReceiptRequest] && ![message hasDeliveryReceiptResponse])
     {
         
 #ifdef _XMPP_CAPABILITIES_H
@@ -180,7 +180,7 @@
         
         if(addReceiptRequest)
         {
-            [message addReceiptRequest];
+            [message addDeliveryReceiptRequest];
         }
     }
     

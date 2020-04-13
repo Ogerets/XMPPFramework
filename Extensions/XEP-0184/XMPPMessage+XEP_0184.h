@@ -4,12 +4,12 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface XMPPMessage (XEP_0184)
 
-@property (nonatomic, readonly) BOOL hasReceiptRequest;
-@property (nonatomic, readonly) BOOL hasReceiptResponse;
-@property (nonatomic, readonly, nullable) NSString *receiptResponseID;
-@property (nonatomic, readonly, nullable) XMPPMessage *generateReceiptResponse;
+@property (nonatomic, readonly) BOOL hasDeliveryReceiptRequest;
+@property (nonatomic, readonly) BOOL hasDeliveryReceiptResponse;
+@property (nonatomic, readonly, nullable) NSString *deliveryReceiptResponseID;
+@property (nonatomic, readonly, nullable) XMPPMessage *generateDeliveryReceiptResponse;
 
-- (void)addReceiptRequest;
+- (void)addDeliveryReceiptRequest;
 
 @end
 NS_ASSUME_NONNULL_END
